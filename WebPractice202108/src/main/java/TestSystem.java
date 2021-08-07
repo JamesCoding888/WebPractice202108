@@ -12,6 +12,8 @@ public class TestSystem {
 		String password = "1234";
 		String SQL = "insert into memberpractice(name, username, password, address, phone, mobile)"
 									   + "values('JamesLiao', 'james', 'abc', 'Taipei', '098808908','0204050')";
+
+		
 		
 		String SQL2 = "insert into memberpractice(name, username,password, address, phone, mobile)"
 					+ "values(?, ?, ?, ?, ?, ?)";
