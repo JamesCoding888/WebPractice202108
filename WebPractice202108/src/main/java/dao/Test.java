@@ -1,10 +1,12 @@
+package dao;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class TestSystem {
+public class Test {
 
 	public static void main(String[] args) {
 		String Url = "jdbc:mysql://localhost:3307/companypractice";
@@ -21,8 +23,8 @@ public class TestSystem {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection conn = DriverManager.getConnection(Url, user, password);
-//			Statement statement = conn.createStatement();
-//			statement.executeUpdate(SQL);
+			Statement statement = conn.createStatement();
+			statement.executeUpdate(SQL);
 			
 			PreparedStatement ps = conn.prepareStatement(SQL2);
 			ps.setString(1, "Ryan");
