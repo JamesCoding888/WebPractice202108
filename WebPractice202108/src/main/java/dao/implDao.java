@@ -30,7 +30,7 @@ public interface implDao{
 	
 	// 新增物件
 	void add(String name, String username, String password, String address, String phone, String mobile);
-	void add(member m); //DI (Dependence Injection)
+	void add(member m); // Override add(member m)， 使用物件注入 Dependence injection，當客戶需求增加 member 的 fields 的資料時.只需修改 member.java
 	// R 查詢物件
 	member queryUserName(String username, String password); // 判斷帳號密碼
 	
