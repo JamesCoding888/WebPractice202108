@@ -20,6 +20,19 @@ public class memberDao implements implDao{
 		new memberDao().add(m);
 		
 		
+		// 用 java 語法去查詢 database 中的資料並印出
+		Connection connection = implDao.getDB();
+		String sql = "select * from memberpractice";
+		try {
+			PreparedStatement ps = connection.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				System.out.println("name:"+rs.getString("name")+"\tusername:"+rs.getString("username"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 	@Override
