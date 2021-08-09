@@ -33,6 +33,7 @@ public interface implDao{
 	void add(member m); // Override add(member m)， 使用物件注入 Dependence injection，當客戶需求增加 member 的 fields 的資料時.只需修改 member.java
 	// R 查詢物件
 	member queryUserName(String username, String password); // 判斷帳號密碼
+	member queryID(int id);
 	
 	
 }

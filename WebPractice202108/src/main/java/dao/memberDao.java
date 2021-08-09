@@ -3,7 +3,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 import model.member;
 
 public class memberDao implements implDao{
@@ -32,6 +31,9 @@ public class memberDao implements implDao{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
+		// queryID
+		System.out.println(new memberDao().queryID(1));
 		
 	}
 	
@@ -110,5 +112,37 @@ public class memberDao implements implDao{
 		}
 		
 		return m;		
+	}
+
+	@Override
+	public member queryID(int id) {
+		member m = null;
+		Connection connection = implDao.getDB();
+		String sql = "select * from memberpractice where id=?";
+		
+		try {
+			PreparedStatement ps = connection.prepareStatement(sql);
+			ps.setInt(1, id);
+			
+			ResultSet rs = ps.executeQuery();
+			
+			if(rs.next()) {
+				m = new member(
+						rs.getString("name"),
+						rs.getString("username"),
+						rs.getString("password"),
+						rs.getString("address"),
+						rs.getString("phone"),
+						rs.getString("mobile"));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}
+		
+		return m;
+
 	}	
+	
+	
 }
