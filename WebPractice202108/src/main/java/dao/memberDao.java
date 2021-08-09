@@ -3,6 +3,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+
 import model.member;
 
 public class memberDao implements implDao{
@@ -17,24 +19,18 @@ public class memberDao implements implDao{
 		// Override add(member m)， 使用物件注入 Dependence injection
 		member m = new member("abc", "james", "123", "1234", "1234", "1234");
 		new memberDao().add(m);
+			
+		// queryID 測試 
+		System.out.println(new memberDao().queryID(1));		
 		
+		// queryUserName 測試帳號密碼有在資料庫的 Table 中
+		System.out.println(new memberDao().queryUserName("aaa", "111"));
+
+		// queryUserName 測試帳號是否有在資料庫 Table 中
+		System.out.println(new memberDao().queryUserName("aaa"));
 		
 		// 用 java 語法去查詢 database 中的資料並印出
-		Connection connection = implDao.getDB();
-		String sql = "select * from memberpractice";
-		try {
-			PreparedStatement ps = connection.prepareStatement(sql);
-			ResultSet rs = ps.executeQuery();
-			while(rs.next()) {
-				System.out.println("name:"+rs.getString("name")+"\tusername:"+rs.getString("username"));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		// queryID
-		System.out.println(new memberDao().queryID(1));
-		
+		System.out.println(new memberDao().queryAll());
 	}
 	
 	@Override
@@ -142,6 +138,59 @@ public class memberDao implements implDao{
 		
 		return m;
 
+	}
+
+	@Override
+	public String queryAll() {
+		Connection connection = implDao.getDB();
+		String sql = "select * from companypractice.memberpractice";
+		try {
+			PreparedStatement ps = connection.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				System.out.println(
+					"name: " + rs.getString("name")         + "\t" +
+					"username: " + rs.getString("username") + "\t" +
+					"password: " + rs.getString("password") + "\t" +
+					"address: "  + rs.getString("address")  + "\t" +
+					"phone: "    + rs.getString("phone")    + "\t" +
+					"mobile: "   + rs.getString("mobile")
+				);
+
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+		return null;
+	}
+
+	@Override
+	public member queryUserName(String username) {
+		Connection connection = implDao.getDB();
+		String sql = "select * from companypractice.memberpractice where username=? ";
+		member m = null;
+		try {
+			PreparedStatement ps = connection.prepareStatement(sql);
+			ps.setString(1, username);
+			ResultSet rs = ps.executeQuery();
+			
+			if(rs.next()) {
+				m = new member(
+						rs.getString("name"),
+						rs.getString("username"),
+						rs.getString("password"),
+						rs.getString("address"),
+						rs.getString("phone"),
+						rs.getString("mobile"));
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		
+		return m;
 	}	
 	
 	
